@@ -1,6 +1,10 @@
 package com.colvir.homework1;
 
-import java.util.*;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Launcher {
@@ -24,6 +28,7 @@ public class Launcher {
                 .entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()))
-                .forEach(e-> System.out.println(e.getKey()));
+                .map(Map.Entry::getKey)
+                .forEach(System.out::println);
     }
 }
