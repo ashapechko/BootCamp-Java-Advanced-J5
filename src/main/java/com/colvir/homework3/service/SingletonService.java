@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SingletonService {
-    @Autowired
+
     private PrototypeService prototypeService;
-    @Autowired
     private PrototypeProxyService prototypeProxyService;
-    @Autowired
     private ObjectFactory<PrototypeService> prototypeServiceFactory;
+
+    public SingletonService(PrototypeService prototypeService, PrototypeProxyService prototypeProxyService, ObjectFactory<PrototypeService> prototypeServiceFactory) {
+        this.prototypeService = prototypeService;
+        this.prototypeProxyService = prototypeProxyService;
+        this.prototypeServiceFactory = prototypeServiceFactory;
+    }
 
     public PrototypeService getPrototypeService() {
         return prototypeService;
