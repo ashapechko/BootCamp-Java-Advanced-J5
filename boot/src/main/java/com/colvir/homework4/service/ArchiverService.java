@@ -11,6 +11,10 @@ import java.util.zip.ZipOutputStream;
 
 @Service
 public class ArchiverService {
+
+    private static final String ZIP_EXTENSION = ".zip";
+    private static final int BUFFER_SIZE = 1024;
+
     public String archive(String filePath) throws IOException {
         File fileToArchive = new File(filePath);
         if (!fileToArchive.exists() || !fileToArchive.isFile()) {
@@ -18,7 +22,7 @@ public class ArchiverService {
         }
 
         String outputFilePath = fileToArchive.getParent()
-                + File.separator + fileToArchive.getName() + ".zip";
+                + File.separator + fileToArchive.getName() + ZIP_EXTENSION;
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(outputFilePath);
              ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
@@ -27,11 +31,12 @@ public class ArchiverService {
             ZipEntry zipEntry = new ZipEntry(fileToArchive.getName());
             zipOutputStream.putNextEntry(zipEntry);
 
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[BUFFER_SIZE];
             int length;
             while ((length = fileInputStream.read(buffer)) > 0) {
                 zipOutputStream.write(buffer, 0, length);
             }
+            zipOutputStream.closeEntry();
         }
         return outputFilePath;
     }
